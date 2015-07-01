@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SMSPro</string>
+    <string name="sms_feed_image">SMS Feed Image</string>
+    <string name="new_message">New Message</string>
+    <string name="enter_recipient">Enter recipient</string>
+    <string name="enter_message">Enter message</string>
+    <string name="error_add_recipient">Add recipient</string>
+    <string name="title_activity_sms_view">Message</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
