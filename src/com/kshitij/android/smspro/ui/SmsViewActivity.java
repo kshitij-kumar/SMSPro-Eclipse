@@ -45,9 +45,7 @@ public class SmsViewActivity extends AppCompatActivity {
 			String message = getIntent().getExtras().getString(EXTRA_MESSAGE);
 			TextView tvMessage = (TextView) findViewById(R.id.tvMessage);
 			tvMessage.setText(message);
-			if (Utility.isDeafultSmsApp(this)) {
-				Utility.markSmsAsRead(this, phoneNumber, message);
-			}
+			Utility.markSmsAsRead(this, phoneNumber, message);
 		} else {
 			finish();
 		}

@@ -3,14 +3,12 @@ package com.kshitij.android.smspro.ui;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Telephony;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
@@ -170,7 +168,7 @@ public class SmsComposeActivity extends AppCompatActivity {
 	}
 
 	/* Send message using SmsManager */
-	private void sendSMS(String phoneNumber, String message) {
+	private void sendSMS(final String phoneNumber, final String message) {
 
 		PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(
 				SENT), 0);
@@ -182,6 +180,8 @@ public class SmsComposeActivity extends AppCompatActivity {
 				case Activity.RESULT_OK:
 					Toast.makeText(getBaseContext(), "Sent", Toast.LENGTH_SHORT)
 							.show();
+					Utility.saveSentSms(SmsComposeActivity.this, phoneNumber,
+							message);
 					finish();
 					break;
 				case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
@@ -210,18 +210,5 @@ public class SmsComposeActivity extends AppCompatActivity {
 
 		SmsManager sms = SmsManager.getDefault();
 		sms.sendTextMessage(phoneNumber, null, message, sentPI, null);
-		if (Utility.isDeafultSmsApp(this)) {
-			saveMessage(this, phoneNumber, message);
-		}
-	}
-
-	/* Save sent message */
-	public static void saveMessage(Context context, String phoneNumber,
-			String message) {
-		ContentValues values = new ContentValues();
-		values.put(Telephony.Sms.Sent.ADDRESS, phoneNumber);
-		values.put(Telephony.Sms.Sent.BODY, message);
-		context.getContentResolver().insert(Telephony.Sms.Sent.CONTENT_URI,
-				values);
 	}
 }

@@ -3,11 +3,9 @@ package com.kshitij.android.smspro.receiver;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Telephony;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.telephony.SmsMessage;
@@ -42,22 +40,10 @@ public class SmsReceiver extends BroadcastReceiver {
 
 				String message = smsMessage.getMessageBody().toString();
 				String phoneNumber = smsMessage.getOriginatingAddress();
-				if (Utility.isDeafultSmsApp(context)) {
-					saveMessage(context, phoneNumber, message);
-				}
+				Utility.saveReceivedSms(context, phoneNumber, message);
 				displayNotification(context, phoneNumber, message);
 			}
 		}
-	}
-
-	/* Saves a received message in inbox, marked as unread */
-	private void saveMessage(Context context, String phoneNumber, String message) {
-		ContentValues values = new ContentValues();
-		values.put(Telephony.Sms.Inbox.ADDRESS, phoneNumber);
-		values.put(Telephony.Sms.Inbox.BODY, message);
-		values.put(Telephony.Sms.Inbox.READ, 0);
-		context.getContentResolver().insert(Telephony.Sms.Inbox.CONTENT_URI,
-				values);
 	}
 
 	/*
